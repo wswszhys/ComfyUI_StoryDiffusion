@@ -1,0 +1,6 @@
+spaces
+peft
+diffusers
+omegaconf
+facexlib
+optimum-quanto
