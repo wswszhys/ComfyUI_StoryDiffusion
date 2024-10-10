@@ -6,6 +6,7 @@ import logging
 import numpy as np
 import torch
 import os
+import re
 from PIL import ImageFont,Image
 from diffusers import (StableDiffusionXLPipeline, DiffusionPipeline,EulerDiscreteScheduler, UNet2DConditionModel,UniPCMultistepScheduler, AutoencoderKL,)
 from transformers import CLIPVisionModelWithProjection
@@ -1811,6 +1812,10 @@ class Comic_Type:
         font_choice = os.path.join(dir_path, "fonts", fonts_list)
         captions = scene_prompts.splitlines()
         if len(captions) > 1:
+            # 去除大括号内容
+            captions = [ re.sub(r'{.*?}', '', caption) for caption in captions] 
+            # 去除逗号分号句号
+            captions = [ re.sub(r'[.。,，;；]', '', caption) for caption in captions] 
             captions = [caption.replace("(", "").replace(")", "") if "(" or ")" in caption else caption
                         for caption in captions]  # del ()
             captions = [caption.replace("[NC]", "") for caption in captions]
